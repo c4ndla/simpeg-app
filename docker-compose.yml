@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  simpeg_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: simpeg
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    command: 'php artisan serve --host=0.0.0.0'
+    volumes:
+      - ./:/app
+    ports:
+      - 8002:8000
+    depends_on:
+      - simpeg
+
+ 
+
+  simpeg:
+    image: mysql:5.7.22
+    environment:
+      MYSQL_DATABASE: simpeg
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 33069:3306
